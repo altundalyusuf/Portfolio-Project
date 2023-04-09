@@ -1,11 +1,11 @@
 import React from 'react'
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 import { useAuth } from '../context/AuthContext';
 // Pages
 import Home from '../pages/Home'
 import Account from '../pages/Account'
 import Login from '../pages/Login/Login';
-import Signup from '../components/Login/Signup';
+import Register from '../pages/Login/Register';
 import NotFound from '../pages/NotFound';
 import LoginLayout from '../layouts/LoginLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
@@ -19,7 +19,7 @@ function IndexRoute() {
                 {!user &&
                     <Route path="/" element={<LoginLayout />} >
                         <Route index element={<Login />} />
-                        <Route path='signup' element={<Signup />} />
+                        <Route path='signup' element={<Register />} />
                     </Route>
                 }
 
@@ -27,6 +27,7 @@ function IndexRoute() {
                 {user &&
                     <Route path="/" element={<DashboardLayout />} >
                         <Route index element={<Home />} />
+                        {/* <Route path='signup' element={<Navigate replace to='/' />} /> */}
                         <Route path="account" element={<Account />} />
                     </Route>
                 }

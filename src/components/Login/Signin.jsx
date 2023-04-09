@@ -1,14 +1,56 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { LockClosedIcon } from '@heroicons/react/20/solid';
 import { GoogleButton } from 'react-google-button';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuth } from '../../context/AuthContext';
+import { auth } from '../../firebase';
 
 const Signin = () => {
+    const [authData, setAuthData] = useState({ email: '', password: '' });
+    const navigate = useNavigate();
+    const errorRef = useRef();
+
+
+    const onChangeFunc = (e) => {
+        setAuthData({ ...authData, [e.target.name]: e.target.value });
+    }
+    const authFunc = async () => {
+        try {
+            const data = await signInWithEmailAndPassword(auth, authData.email, authData.password)
+            const user = data.user;
+            user && navigate('/');
+        } catch (err) {
+            const errorMessage = (message) => (
+                `
+            <div class="alert alert-error shadow-sm">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>${message}</span>
+            </div>
+          </div>
+                `
+            )
+            if (err.message === 'Firebase: Error (auth/wrong-password).') {
+                errorRef.current.innerHTML = errorMessage('Hatalı şifre.')
+            }
+            else if (err.message === 'Firebase: Error (auth/missing-password).') {
+                errorRef.current.innerHTML = errorMessage('Lütfen şifrenizi girin.')
+            }
+            else if (err.message === 'Firebase: Error (auth/invalid-email).') {
+                errorRef.current.innerHTML = errorMessage('Geçersiz mail adresi')
+            }
+            else {
+                errorRef.current.innerHTML = errorMessage(err.message)
+            }
+            console.log(err.message);
+
+        }
+    }
+
     // Google login 
     const { googleSignIn, user } = useAuth();
-    const navigate = useNavigate();
 
     const handleGoogleSignIn = async () => {
         try {
@@ -40,7 +82,6 @@ const Signin = () => {
                         </h2>
                     </div>
                     <form className="mt-8 space-y-5" action="#" method="POST">
-                        <input type="hidden" name="remember" defaultValue="true" />
                         <div className="-space-y-px rounded-md shadow-sm">
                             <div>
                                 <label htmlFor="email-address" className="sr-only">
@@ -51,6 +92,8 @@ const Signin = () => {
                                     name="email"
                                     type="email"
                                     autoComplete="email"
+                                    value={authData.email}
+                                    onChange={onChangeFunc}
                                     required
                                     className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     placeholder="E-Posta"
@@ -65,6 +108,8 @@ const Signin = () => {
                                     name="password"
                                     type="password"
                                     autoComplete="current-password"
+                                    value={authData.password}
+                                    onChange={onChangeFunc}
                                     required
                                     className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     placeholder="Şifre"
@@ -72,6 +117,9 @@ const Signin = () => {
                             </div>
                         </div>
 
+                        <div ref={errorRef}>
+
+                        </div>
 
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
@@ -88,8 +136,9 @@ const Signin = () => {
 
                         <div>
                             <button
-                                type="submit"
-                                className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                type="button"
+                                onClick={authFunc}
+                                className="transition ease-in active:-translate-y-1 active:scale-90  duration-200 group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />

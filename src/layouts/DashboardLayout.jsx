@@ -1,13 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router'
-import Navbar from '../components/Navbar'
-import Example from '../components/Navbar/Navbar'
+import Navbar from '../components/Navbar/Navbar'
 
 const DashboardLayout = () => {
     return (
         <>
             {/* <Navbar /> */}
-            <Example />
+            <Navbar />
             <Outlet />
         </>
     )

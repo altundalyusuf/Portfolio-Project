@@ -5,6 +5,7 @@ import {
     signOut,
     onAuthStateChanged,
 } from "firebase/auth";
+import { useNavigate } from 'react-router';
 import { auth } from '../firebase';
 
 
@@ -13,6 +14,7 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
 
     const [user, setUser] = useState({});
+    const navigate = useNavigate();
 
     // Sign in with Google
     const googleSignIn = () => {
@@ -34,6 +36,13 @@ export const AuthContextProvider = ({ children }) => {
             unsubscribe();
         }
     }, [])
+
+    // When logout redirect to login page
+    useEffect(() => {
+        if (user == null) {
+            navigate('/')
+        }
+    }, [user])
 
 
 

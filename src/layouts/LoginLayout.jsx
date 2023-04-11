@@ -5,8 +5,11 @@ const LoginLayout = () => {
     return (
         <>
             <div className="navbar bg-secondary-focus text-primary-content">
-                <a className="btn btn-ghost normal-case text-xl">Benim Portfolyom</a>
+                <div className="flex-1">
+                    <a className="btn btn-ghost normal-case text-xl">Portfolyo Portalı</a>
+                </div>
             </div>
+
             <Outlet />
         </>
     )

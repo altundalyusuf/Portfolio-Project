@@ -16,6 +16,7 @@ const Signin = () => {
     const onChangeFunc = (e) => {
         setAuthData({ ...authData, [e.target.name]: e.target.value });
     }
+    // Sign in function
     const authFunc = async () => {
         try {
             const data = await signInWithEmailAndPassword(auth, authData.email, authData.password)

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { GoogleButton } from 'react-google-button';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -11,10 +11,11 @@ const Signup = () => {
     const navigate = useNavigate();
     const errorRef = useRef();
 
-
     const onChangeFunc = (e) => {
         setAuthData({ ...authData, [e.target.name]: e.target.value });
     }
+
+    // Sign up function
     const authFunc = async () => {
         const errorMessage = (message) => (
             `
@@ -46,8 +47,8 @@ const Signup = () => {
         }
     }
 
-    // Google login 
-    const { googleSignIn, user } = useAuth();
+    // Google sign up 
+    const { googleSignIn } = useAuth();
 
     const handleGoogleSignIn = async () => {
         try {
@@ -57,16 +58,6 @@ const Signup = () => {
             console.log(error);
         }
     }
-
-    useEffect(() => {
-        if (user != null) {
-            navigate('/account')
-
-        }
-    }, [user])
-
-
-
 
     return (
         <>

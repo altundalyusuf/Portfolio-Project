@@ -11,7 +11,7 @@ import LoginLayout from '../layouts/LoginLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Settings from '../pages/Settings/Settings';
 import CreatePost from '../components/Posts/CreatePost';
-import Posts from '../components/Posts/Posts';
+import Portfolio from '../pages/Portfolio/Portfolio';
 
 function IndexRoute() {
     const { user } = useAuth();
@@ -34,7 +34,7 @@ function IndexRoute() {
                         <Route path="account" element={<Account />} />
                         <Route path="settings" element={<Settings />} />
                         <Route path="create-post" element={<CreatePost />} />
-                        <Route path="posts" element={<Posts />} />
+                        <Route path="portfolio" element={<Portfolio />} />
                     </Route>
                 }
 

@@ -70,7 +70,6 @@ const Portfolio = () => {
                 <div className="divider"></div>
                 <Articles />
             </div>
-            <Footer />
         </>
     )
 }

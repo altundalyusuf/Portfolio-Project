@@ -4,7 +4,7 @@ const Certificates = () => {
     return (
         <>
             <h1 id='certificates' className='text-center text-3xl font-bold py-8'>Sertifikalar</h1>
-            <div className="grid grid-cols-6">
+            <div className="grid grid-cols-12">
                 {/* Arka Planları sil turuncu ve yeşili */}
                 <div className='p-3 col-span-6 md:col-span-3 bg-orange-300 rounded flex items-center md:justify-start'>
                     <div className="card w-96 bg-base-100 shadow-xl">
@@ -15,13 +15,12 @@ const Certificates = () => {
                         </div>
                     </div>
                 </div>
-                <div className='p-3 col-span-6 md:col-span-3 bg-orange-300 flex items-center md:justify-start'>
+                <div className='p-3 col-span-6 md:col-span-3 bg-orange-300 rounded flex items-center md:justify-start'>
                     <div className="card w-96 bg-base-100 shadow-xl">
                         <div className="card-body">
-                            <h2 className="card-title">İstanbul Medeniyet Üniversitesi</h2>
-                            <p>Bilgisayar Mühendisliği</p>
-                            <p>2019 - 2023</p>
-                            <p>Not: 2,87</p>
+                            <h2 className="card-title">Frontend Giriş </h2>
+                            <p>Udemy</p>
+                            <p>2022</p>
                         </div>
                     </div>
                 </div>

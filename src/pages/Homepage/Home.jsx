@@ -1,7 +1,5 @@
 import React from 'react'
-import Header from '../../components/Homepage/Header'
 import welcomePic from '../../assets/welcome-pic.jpg';
-import Footer from '../../components/Navbar/Footer';
 
 const Home = () => {
     return (
@@ -71,7 +69,6 @@ const Home = () => {
                 {/* Silinecek */}
                 {/* <Header /> */}
             </div>
-            <Footer />
         </div>
     )
 }

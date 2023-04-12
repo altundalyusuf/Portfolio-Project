@@ -1,4 +1,5 @@
 import React from 'react'
+import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
 const Settings = () => {
     return (
@@ -16,6 +17,76 @@ const Settings = () => {
                 <svg className="swap-off fill-current w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" /></svg>
             </label>
             <h1 className='text-center text-xl font-bold py-8'>Dil</h1>
+
+            {/* Form */}
+            <form>
+                <div className="space-y-12">
+                    <div className="border-b border-gray-900/10 pb-12">
+                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            {/* Change Photo */}
+                            <div className="col-span-full">
+                                <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Photo
+                                </label>
+                                <div className="mt-2 flex items-center gap-x-3">
+                                    <UserCircleIcon className="h-12 w-12 text-gray-300" aria-hidden="true" />
+                                    <button
+                                        type="button"
+                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                    >
+                                        Change
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Add photo */}
+                            <div className="col-span-full">
+                                <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                    Cover photo
+                                </label>
+                                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                    <div className="text-center">
+                                        <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
+                                        <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                            <label
+                                                htmlFor="file-upload"
+                                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                            >
+                                                <span>Upload a file</span>
+                                                <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                                            </label>
+                                            <p className="pl-1">or drag and drop</p>
+                                        </div>
+                                        <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="border-b border-gray-900/10 pb-12">
+                        <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+                        <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
+
+                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="sm:col-span-3">
+                                <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
+                                    First name
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        type="text"
+                                        name="first-name"
+                                        id="first-name"
+                                        autoComplete="given-name"
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </>
     )
 }

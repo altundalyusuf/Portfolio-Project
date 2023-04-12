@@ -10,7 +10,7 @@ import NotFound from '../pages/NotFound';
 import LoginLayout from '../layouts/LoginLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
 import Settings from '../pages/Settings/Settings';
-import CreatePost from '../components/Posts/CreatePost';
+import CreatePost from '../pages/CreatePost/CreatePost';
 import Portfolio from '../pages/Portfolio/Portfolio';
 
 function IndexRoute() {

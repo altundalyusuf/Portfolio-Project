@@ -8,9 +8,10 @@ const Home = () => {
         <div className='bg-slate-50'>
             <h1 className='text-center text-5xl font-bold pt-11 pb-16  bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-violet-500 hover:bg-gradient-to-r hover:from-violet-500 hover:to-amber-300 cursor-pointer transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300'>Gönderi Akışı</h1>
             {/* Full-width fluid until the `md` breakpoint, then lock to container */}
-            <div className="md:container md:mx-auto pb-11">
+            <div className="md:container md:mx-auto">
                 {/* Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3">
+                    {/* Arka Planları sil turuncu ve yeşili */}
                     {/* Image */}
                     <div className='col-span-2 md:col-span-1 bg-orange-300 flex items-center justify-center'>
                         <div className='w-32 md:w-full bg-slate-700'>
@@ -67,6 +68,7 @@ const Home = () => {
                     {/* Buraya kadar silebilirsin */}
                 </div>
 
+                {/* Silinecek */}
                 {/* <Header /> */}
             </div>
             <Footer />

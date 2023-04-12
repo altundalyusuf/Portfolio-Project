@@ -2,8 +2,8 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <div>
-            <footer className="footer p-10 bg-red-200 text-base-content">
+        <>
+            <footer className="footer p-10 mt-11 bg-red-200 text-base-content">
                 <div>
                     <span className="footer-title">Hizmetlerimiz</span>
                     <a className="link link-hover">Markalaştırma</a>
@@ -39,7 +39,7 @@ const Footer = () => {
                     </div>
                 </div>
             </footer>
-        </div>
+        </>
     )
 }
 

@@ -1,13 +1,16 @@
 import React from "react"
 import { AuthContextProvider } from './context/AuthContext';
 import IndexRoute from "./routes";
+import { PortfolioContextProvider } from "./context/PortfolioContext";
 
 function App() {
 
   return (
     <>
       <AuthContextProvider>
-        <IndexRoute />
+        <PortfolioContextProvider>
+          <IndexRoute />
+        </PortfolioContextProvider>
       </AuthContextProvider>
     </>
   )

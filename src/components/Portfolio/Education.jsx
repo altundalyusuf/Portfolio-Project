@@ -52,11 +52,11 @@ const Education = () => {
     useEffect(() => {
         const q = query(collection(db, 'educationCollection'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let messages = [];
+            let educations = [];
             querySnapshot.forEach((doc) => {
-                messages.push({ ...doc.data(), id: doc.id });
+                educations.push({ ...doc.data(), id: doc.id });
             });
-            setCard(messages);
+            setCard(educations);
         });
         return () => unsubscribe();
     }, []);
@@ -122,7 +122,6 @@ const Education = () => {
                     </div>
                 </div>
             </div>
-            {/*  */}
 
         </>
     )

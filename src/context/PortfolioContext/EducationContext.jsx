@@ -36,7 +36,7 @@ export const EducationContextProvider = ({ children }) => {
             }
         }
         catch (error) {
-            console.error("Doküman görüntülerken hata: ", error);
+            console.error("Eğitim Dokümanı görüntülerken hata: ", error);
         }
     }
 

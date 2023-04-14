@@ -5,6 +5,8 @@ import { IntroContextProvider } from "./context/PortfolioContext/IntroContext";
 import { EducationContextProvider } from "./context/PortfolioContext/EducationContext";
 import { ExperienceContextProvider } from "./context/PortfolioContext/ExperienceContext";
 import { CertificateContextProvider } from "./context/PortfolioContext/CertificateContext";
+import { SkillContextProvider } from "./context/PortfolioContext/SkillContext";
+import { ProjectContextProvider } from "./context/PortfolioContext/ProjectContext";
 
 function App() {
 
@@ -15,9 +17,13 @@ function App() {
         <IntroContextProvider>
           <EducationContextProvider>
             <ExperienceContextProvider>
-              <CertificateContextProvider>
-                <IndexRoute />
-              </CertificateContextProvider>
+              <SkillContextProvider>
+                <CertificateContextProvider>
+                  <ProjectContextProvider>
+                    <IndexRoute />
+                  </ProjectContextProvider>
+                </CertificateContextProvider>
+              </SkillContextProvider>
             </ExperienceContextProvider>
           </EducationContextProvider>
         </IntroContextProvider>

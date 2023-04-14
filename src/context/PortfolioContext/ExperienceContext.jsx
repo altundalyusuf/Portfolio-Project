@@ -32,8 +32,8 @@ export const ExperienceContextProvider = ({ children }) => {
         try {
             const doc = await getDoc(experienceDocRef)
             if (doc.exists()) {
-                const educationData = doc.data();
-                setExperienceData(educationData);
+                const experienceData = doc.data();
+                setExperienceData(experienceData);
             }
         }
         catch (error) {

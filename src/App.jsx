@@ -1,16 +1,19 @@
 import React from "react"
 import { AuthContextProvider } from './context/AuthContext';
 import IndexRoute from "./routes";
-import { PortfolioContextProvider } from "./context/PortfolioContext";
+import { IntroContextProvider } from "./context/PortfolioContext/IntroContext";
+import { EducationContextProvider } from "./context/PortfolioContext/EducationContext";
 
 function App() {
 
   return (
     <>
       <AuthContextProvider>
-        <PortfolioContextProvider>
-          <IndexRoute />
-        </PortfolioContextProvider>
+        <IntroContextProvider>
+          <EducationContextProvider>
+            <IndexRoute />
+          </EducationContextProvider>
+        </IntroContextProvider>
       </AuthContextProvider>
     </>
   )

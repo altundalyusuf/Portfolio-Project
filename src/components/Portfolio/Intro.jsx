@@ -1,18 +1,29 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import welcomePic from '../../assets/welcome-pic.jpg';
 import { useAuth } from '../../context/AuthContext';
-import { usePortfolio } from '../../context/PortfolioContext';
+import { useIntro } from '../../context/PortfolioContext/IntroContext';
 
 const Intro = () => {
+    const [isLoading, setLoading] = useState(true);
     const { user } = useAuth();
-    const { introText, setIntroText } = usePortfolio();
+    const { introText, createIntroFirebase, readIntroFirebase } = useIntro();
     const textRef = useRef();
 
-
-    const handleClick = () => {
-        setIntroText(textRef.current.value)
+    // Change inner HTML of the intro paragraph when modal is submitted
+    const handleClick = async () => {
+        // Save content to firebase
+        await createIntroFirebase(textRef.current.value);
+        // Read from firebase
+        await readIntroFirebase();
+        setLoading(true);
+        // Clear inside of modal
         textRef.current.value = "";
     }
+
+    // When introText changes or page is mounting, show loading...
+    useEffect(() => {
+        setLoading(false);
+    }, [introText])
 
     return (
         // Grid
@@ -34,7 +45,7 @@ const Intro = () => {
                 </label>
 
                 <h1 className="text-3xl md:text-4xl font-bold pt-8">{user.displayName}</h1>
-                <p className="py-6 px-4">{introText}</p>
+                <p className="py-6 px-4">{isLoading ? 'Yükleniyor...' : introText}</p>
 
                 {/* **MODAL** Put this part before </body> tag */}
                 <input type="checkbox" id="my-modal-6" className="modal-toggle" />

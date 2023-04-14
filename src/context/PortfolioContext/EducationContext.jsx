@@ -1,5 +1,5 @@
 import { useContext, createContext, useEffect, useState } from 'react';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, addDoc, collection, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 
@@ -7,44 +7,20 @@ const EducationContext = createContext();
 
 export const EducationContextProvider = ({ children }) => {
 
-    // Intro firebase collection
-    const educationDocRef = doc(db, "educationCollection", "educationDoc");
-    // State initial value
-    let initialValue;
-    // Read from firebase when initializing state
-    const initialFirebaseEducation = async () => {
-        try {
-            const doc = await getDoc(educationDocRef)
-            if (doc.exists()) {
-                const educationData = doc.data();
-                initialValue = educationData;
-            }
-        }
-        catch (error) {
-            console.error("Doküman görüntülerken hata: ", error);
-        }
-    }
-    // introText state
-    const [educationData, setEducationData] = useState(() => {
-        initialFirebaseEducation();
-        return initialValue || {
-            school: 'medeniyet',
-            department: 'pc',
-            dates: '2019-2023',
-            grade: '2.87',
-        }
-    });
+    const [educationData, setEducationData] = useState('')
 
+    const educationDocRef = doc(db, "educationCollection", 'educationDoc');
 
-    // Create intro text in firebase
+    // Create education infos in firebase
     const createEducationFirebase = async (education) => {
         try {
-            await setDoc(educationDocRef, {
+            await addDoc(collection(db, 'educationCollection'), {
                 school: education.school,
                 department: education.department,
                 dates: education.dates,
                 grade: education.grade,
             })
+            setEducationData('')
         } catch (error) {
             console.error("Eğitim Dokümanını eklerken hata: ", error);
         }
@@ -58,13 +34,14 @@ export const EducationContextProvider = ({ children }) => {
                 const educationData = doc.data();
                 setEducationData(educationData);
             }
-            else {
-                console.log("Doküman bulunamadı!");
-            }
         }
         catch (error) {
             console.error("Doküman görüntülerken hata: ", error);
         }
+    }
+
+    const deleteEducation = async (dataID) => {
+        await deleteDoc(doc(db, "educationCollection", dataID));
     }
 
 
@@ -79,6 +56,7 @@ export const EducationContextProvider = ({ children }) => {
         setEducationData,
         createEducationFirebase,
         readEducationFirebase,
+        deleteEducation,
     }
 
 

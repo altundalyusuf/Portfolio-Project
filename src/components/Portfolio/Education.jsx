@@ -1,17 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useEducation } from '../../context/PortfolioContext/EducationContext';
+import { db } from '../../firebase';
 
 const Education = () => {
-    const [isLoading, setLoading] = useState(true);
-    // state for Modal informations 
+    // state for sending Modal informations to firebase 
     const [modalInput, setModalInput] = useState({
         school: '',
         department: '',
         dates: '',
         grade: ''
     });
+    // state for when we read from firestore
+    const [card, setCard] = useState([]);
 
-    const { educationData, createEducationFirebase, readEducationFirebase } = useEducation();
+    const { createEducationFirebase, readEducationFirebase, deleteEducation } = useEducation();
     const schoolRef = useRef('');
     const departmentRef = useRef('');
     const datesRef = useRef('');
@@ -26,13 +29,12 @@ const Education = () => {
         }));
     }
 
+    // create new card and save to firebase
     const handleClick = async () => {
         // Save content to firebase
         await createEducationFirebase(modalInput);
-
         // Read from firebase
         await readEducationFirebase();
-        setLoading(true);
         // Clear inside of modal
         schoolRef.current.value = "";
         departmentRef.current.value = "";
@@ -40,10 +42,24 @@ const Education = () => {
         gradeRef.current.value = "";
     }
 
-    // When education changes or page is mounting, show loading...
+    const handleDelete = async (dataID) => {
+        deleteEducation(dataID);
+
+    }
+
+
+    // Read data from firebase
     useEffect(() => {
-        setLoading(false);
-    }, [educationData])
+        const q = query(collection(db, 'educationCollection'));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            let messages = [];
+            querySnapshot.forEach((doc) => {
+                messages.push({ ...doc.data(), id: doc.id });
+            });
+            setCard(messages);
+        });
+        return () => unsubscribe();
+    }, []);
 
     return (
         <>
@@ -59,21 +75,25 @@ const Education = () => {
             {/* Education Cards */}
             <div className="grid grid-cols-6">
                 {/* Arka Planları sil turuncu ve yeşili */}
-                <div className='p-3 col-span-6 md:col-span-3 bg-orange-300 rounded flex items-center md:justify-start'>
-                    <div className="card w-96 bg-base-100 shadow-xl relative">
-                        <label htmlFor="my-modal-1" className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </label>
-                        <div className="card-body">
-                            <h2 className="card-title" >{isLoading ? 'Yükleniyor...' : educationData.school}</h2>
-                            <p>{isLoading ? 'Yükleniyor...' : educationData.department}</p>
-                            <p>{isLoading ? 'Yükleniyor...' : educationData.dates}</p>
-                            <p>Not: {isLoading ? 'Yükleniyor...' : educationData.grade}</p>
+                {card &&
+                    card.map((data) => (
+                        <div key={data.id} className='p-3 col-span-6 md:col-span-3 bg-orange-300 rounded flex items-center md:justify-start'>
+                            <div className="card w-96 bg-base-100 shadow-xl relative">
+                                <label onClick={() => handleDelete(data.id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </label>
+                                <div className="card-body">
+                                    <h2 className="card-title" >{data?.school}</h2>
+                                    <p>{data?.department}</p>
+                                    <p>{data?.dates}</p>
+                                    <p>Not: {data?.grade}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    ))}
+
 
                 {/* **MODAL** Put this part before </body> tag */}
                 <input type="checkbox" id="my-modal-1" className="modal-toggle" />

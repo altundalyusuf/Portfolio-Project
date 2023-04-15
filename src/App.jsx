@@ -7,6 +7,7 @@ import { ExperienceContextProvider } from "./context/PortfolioContext/Experience
 import { CertificateContextProvider } from "./context/PortfolioContext/CertificateContext";
 import { SkillContextProvider } from "./context/PortfolioContext/SkillContext";
 import { ProjectContextProvider } from "./context/PortfolioContext/ProjectContext";
+import { ArticleContextProvider } from "./context/PortfolioContext/ArticleContext";
 
 function App() {
 
@@ -20,7 +21,9 @@ function App() {
               <SkillContextProvider>
                 <CertificateContextProvider>
                   <ProjectContextProvider>
-                    <IndexRoute />
+                    <ArticleContextProvider>
+                      <IndexRoute />
+                    </ArticleContextProvider>
                   </ProjectContextProvider>
                 </CertificateContextProvider>
               </SkillContextProvider>

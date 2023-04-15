@@ -25,6 +25,7 @@ const Intro = () => {
         setLoading(false);
     }, [introText])
 
+
     return (
         // Grid
         <div id='intro' className="grid grid-cols-2 md:grid-cols-3">
@@ -32,7 +33,7 @@ const Intro = () => {
             {/* Image */}
             <div className='col-span-2 md:col-span-1 bg-orange-300 rounded flex items-center justify-center'>
                 <div className='w-32 md:w-full rounded bg-slate-700'>
-                    <img src={welcomePic} className='w-full rounded' alt="profile-photo" />
+                    <img src={user.photoURL} className='w-full rounded' alt="profile-photo" />
                 </div>
             </div>
             {/* Content */}

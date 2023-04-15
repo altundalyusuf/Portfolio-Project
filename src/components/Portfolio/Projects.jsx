@@ -43,7 +43,6 @@ const Projects = () => {
 
     const handleDelete = async (dataID) => {
         deleteProject(dataID);
-
     }
 
 

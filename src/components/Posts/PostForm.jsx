@@ -88,12 +88,12 @@ const PostForm = () => {
                 <div className="space-y-12">
                     {/* Text Fields */}
                     <div>
-                        <p className="mt-1 text-center text-sm leading-6 text-gray-600">Gönderinizi oluşturmak için aşağıdaki alanları doldurun.</p>
+                        <p className="mt-1 text-center text-sm leading-6 text-info-content">Gönderinizi oluşturmak için aşağıdaki alanları doldurun.</p>
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 px-3 md:px-28">
 
                             {/* Post Title */}
                             <div className="sm:col-span-2 sm:col-start-1">
-                                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="name" className="block text-sm font-medium leading-6 text-primary">
                                     Gönderi Başlığı
                                 </label>
                                 <div className="mt-2">
@@ -110,7 +110,7 @@ const PostForm = () => {
 
                             {/* Post Category */}
                             <div className="sm:col-span-2 sm:col-start-4">
-                                <label htmlFor="category" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="category" className="block text-sm font-medium leading-6 text-primary">
                                     Kategori
                                 </label>
                                 <div className="mt-2">
@@ -127,7 +127,7 @@ const PostForm = () => {
 
                             {/* Post Author Job */}
                             <div className="sm:col-span-2 sm:col-start-1 ">
-                                <label htmlFor="authorRole" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="authorRole" className="block text-sm font-medium leading-6 text-primary">
                                     Mesleğiniz
                                 </label>
                                 <div className="mt-2">
@@ -143,7 +143,7 @@ const PostForm = () => {
                             </div>
                             {/* Post Date */}
                             <div className="sm:col-span-2 sm:col-start-4 ">
-                                <label htmlFor="dates" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="dates" className="block text-sm font-medium leading-6 text-primary">
                                     Gönderi Tarihi
                                 </label>
                                 <div className="mt-2">
@@ -160,11 +160,11 @@ const PostForm = () => {
 
                             {/* Post Image */}
                             <div className="sm:col-span-3 sm:col-start-1">
-                                <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="photo" className="block text-sm font-medium leading-6 text-primary">
                                     Makale Görseli
                                 </label>
 
-                                <div className="mt-2 flex items-center gap-x-3">
+                                <div className="mt-2 flex items-center gap-x-3 text-warning">
                                     <input type="file"
                                         ref={photoRef}
                                         name='photo'
@@ -175,7 +175,7 @@ const PostForm = () => {
 
                             {/* Post Content */}
                             <div className="col-span-full">
-                                <label htmlFor="text" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="text" className="block text-sm font-medium leading-6 text-primary">
                                     Gönderi İçeriği
                                 </label>
                                 <div className="mt-2">
@@ -198,13 +198,13 @@ const PostForm = () => {
                 <div className="mt-6 flex items-center justify-center gap-x-6 tooltip" data-tip='Bütün alanları doldurdunuz mu?.'>
                     <button type="button"
                         disabled={loading || condition}
-                        className="text-sm font-semibold leading-6 text-gray-900">
+                        className="text-sm font-semibold leading-6 text-info-content">
                         İptal
                     </button>
                     <button
                         type="submit"
                         disabled={loading || condition}
-                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="rounded-md bg-success px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                     >
                         Oluştur
                     </button>

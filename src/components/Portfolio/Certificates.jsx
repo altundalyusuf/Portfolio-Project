@@ -77,7 +77,7 @@ const Certificates = () => {
 
                 {card &&
                     card.map((data) => (
-                        <div key={data.id} className='p-3 col-span-6 md:col-span-3 bg-orange-300 rounded flex items-center md:justify-start'>
+                        <div key={data.id} className='p-3 col-span-6 md:col-span-3 bg-primary rounded flex items-center md:justify-start'>
                             <div className="card w-96 bg-base-100 shadow-xl relative">
                                 <label onClick={() => handleDelete(data.id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -111,7 +111,7 @@ const Certificates = () => {
                         {/* Buttons */}
                         <div className="modal-action flex justify-center">
                             <label htmlFor="my-modal-3" className="btn btn-outline">İptal</label>
-                            <label htmlFor="my-modal-3" onClick={handleClick} className="btn">Kaydet</label>
+                            <label htmlFor="my-modal-3" onClick={handleClick} className="btn btn-success hover:bg-primary">Kaydet</label>
                         </div>
                     </div>
                 </div>

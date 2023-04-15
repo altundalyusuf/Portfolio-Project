@@ -69,7 +69,7 @@ const Signup = () => {
                             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                             alt="Your Company"
                         />
-                        <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+                        <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-primary">
                             Hesap Oluştur
                         </h2>
                     </div>

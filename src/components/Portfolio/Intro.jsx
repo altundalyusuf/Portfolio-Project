@@ -31,21 +31,21 @@ const Intro = () => {
         <div id='intro' className="grid grid-cols-2 md:grid-cols-3">
             {/* Arka Planları sil turuncu ve yeşili */}
             {/* Image */}
-            <div className='col-span-2 md:col-span-1 bg-orange-300 rounded flex items-center justify-center'>
+            <div className='col-span-2 md:col-span-1 bg-primary rounded flex items-center justify-center'>
                 <div className='w-32 md:w-full rounded bg-slate-700'>
-                    <img src={user.photoURL} className='w-full rounded' alt="profile-photo" />
+                    <img src={user.photoURL ? user.photoURL : welcomePic} className='w-full rounded' alt="profile-photo" />
                 </div>
             </div>
             {/* Content */}
-            <div className='col-span-2 bg-green-500 rounded text-center flex flex-col justify-center relative'>
+            <div className='col-span-2 bg-primary rounded text-center flex flex-col justify-center text-black relative'>
                 {/* Edit button to open modal */}
-                <label htmlFor="my-modal-6" className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0">
+                <label htmlFor="my-modal-6" className="btn btn-square btn-primary gap-2 btn-sm md:btn-md absolute top-0 right-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                     </svg>
                 </label>
 
-                <h1 className="text-3xl md:text-4xl font-bold pt-8">{user.displayName}</h1>
+                <h1 className="text-3xl md:text-3xl font-bold pt-8">{user.displayName ? user.displayName : 'Kullanıcı adınızı hesabım kısmından güncelleyebilirsiniz'}</h1>
                 <p className="py-6 px-4">{isLoading ? 'Yükleniyor...' : introText}</p>
 
                 {/* **MODAL** Put this part before </body> tag */}
@@ -58,7 +58,7 @@ const Intro = () => {
                         {/* Submit veya close button */}
                         <div className="modal-action flex justify-center">
                             <label htmlFor="my-modal-6" className="btn btn-outline">İptal</label>
-                            <label htmlFor="my-modal-6" onClick={handleClick} className="btn">Kaydet</label>
+                            <label htmlFor="my-modal-6" onClick={handleClick} className="btn btn-success hover:bg-primary">Kaydet</label>
                         </div>
                     </div>
                 </div>

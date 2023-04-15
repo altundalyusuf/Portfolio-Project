@@ -8,29 +8,32 @@ import { CertificateContextProvider } from "./context/PortfolioContext/Certifica
 import { SkillContextProvider } from "./context/PortfolioContext/SkillContext";
 import { ProjectContextProvider } from "./context/PortfolioContext/ProjectContext";
 import { ArticleContextProvider } from "./context/PortfolioContext/ArticleContext";
+import { ThemeContextProvider } from "./context/ThemeContext";
 
 function App() {
 
   return (
     <>
       {/* Context Providers and index Route file */}
-      <AuthContextProvider>
-        <IntroContextProvider>
-          <EducationContextProvider>
-            <ExperienceContextProvider>
-              <SkillContextProvider>
-                <CertificateContextProvider>
-                  <ProjectContextProvider>
-                    <ArticleContextProvider>
-                      <IndexRoute />
-                    </ArticleContextProvider>
-                  </ProjectContextProvider>
-                </CertificateContextProvider>
-              </SkillContextProvider>
-            </ExperienceContextProvider>
-          </EducationContextProvider>
-        </IntroContextProvider>
-      </AuthContextProvider>
+      <ThemeContextProvider>
+        <AuthContextProvider>
+          <IntroContextProvider>
+            <EducationContextProvider>
+              <ExperienceContextProvider>
+                <SkillContextProvider>
+                  <CertificateContextProvider>
+                    <ProjectContextProvider>
+                      <ArticleContextProvider>
+                        <IndexRoute />
+                      </ArticleContextProvider>
+                    </ProjectContextProvider>
+                  </CertificateContextProvider>
+                </SkillContextProvider>
+              </ExperienceContextProvider>
+            </EducationContextProvider>
+          </IntroContextProvider>
+        </AuthContextProvider>
+      </ThemeContextProvider>
     </>
   )
 }

@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
     return (
         <>
-            <footer className="footer p-10 mt-11 bg-red-200 text-base-content">
+            <footer className="footer p-10 mt-11 bg-secondary text-base-content">
                 <div>
                     <span className="footer-title">Hizmetlerimiz</span>
                     <a className="link link-hover">Markalaştırma</a>
@@ -24,7 +24,7 @@ const Footer = () => {
                     <a className="link link-hover">Çerez İlkeleri</a>
                 </div>
             </footer>
-            <footer className="footer px-10 py-4 bg-red-200 text-base-content border-base-300">
+            <footer className="footer px-10 py-4 bg-secondary text-base-content border-base-300">
                 <div className="items-center grid-flow-col">
                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="fill-current">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />

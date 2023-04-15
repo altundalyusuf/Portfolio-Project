@@ -68,7 +68,7 @@ const Skills = () => {
 
             {card &&
                 card.map((data) => (
-                    <div key={data.id} className="badge badge-secondary badge-outline gap-2 me-2">
+                    <div key={data.id} className="badge badge-primary text-black hover:scale-125 hover:me-5 hover:cursor-pointer gap-2 me-2">
                         <svg onClick={() => handleDelete(data.id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 hover:cursor-pointer stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         {data?.name}
                     </div>
@@ -86,7 +86,7 @@ const Skills = () => {
                     {/* Buttons */}
                     <div className="modal-action flex justify-center">
                         <label htmlFor="my-modal-4" className="btn btn-outline">İptal</label>
-                        <label htmlFor="my-modal-4" onClick={handleClick} className="btn">Kaydet</label>
+                        <label htmlFor="my-modal-4" onClick={handleClick} className="btn btn-success hover:bg-primary">Kaydet</label>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ const Navbar = () => {
     return (
         <>
             <div>
-                <div className="navbar bg-red-200 rounded">
+                <div className="navbar bg-secondary rounded">
                     {/* Brand */}
                     <div className="flex-1 px-2 hidden md:inline-block md:flex-none">
                         <a href='/' className="btn btn-ghost normal-case text-lg font-bold">
@@ -63,9 +63,9 @@ const Navbar = () => {
                                         }
                                     </div>
                                 </label>
-                                <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+                                <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-primary rounded-box w-52 mt-4">
                                     {/* Profile */}
-                                    <li>
+                                    <li className='hover:bg-primary-focus'>
                                         <a className="justify-between" href='account'>
                                             Hesabım
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -74,7 +74,7 @@ const Navbar = () => {
                                         </a>
                                     </li>
                                     {/* Settings */}
-                                    <li>
+                                    <li className='hover:bg-primary-focus'>
                                         <a href='settings' className="justify-between">
                                             Ayarlar
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -84,7 +84,7 @@ const Navbar = () => {
                                         </a>
                                     </li>
                                     {/* Logout */}
-                                    <li>
+                                    <li className='hover:bg-primary-focus'>
                                         <a onClick={handleSignOut} className='justify-between'>Çıkış
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />

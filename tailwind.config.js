@@ -5,6 +5,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    daisyui: {
+      themes: ["light", "halloween"],
+    },
     container: {
       center: true,
       padding: {
@@ -21,17 +24,3 @@ export default {
 }
 
 
-// tailwind.config.js
-// module.exports = {
-//   content: [
-//     "./index.html",
-//     "./src/**/*.{js,ts,jsx,tsx}",
-//   ],
-//   theme: {
-//     extend: {},
-//   },
-//   plugins: [
-//     require('@tailwindcss/forms'),
-//     require("daisyui"),
-//   ],
-// }

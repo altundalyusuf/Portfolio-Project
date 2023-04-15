@@ -1,6 +1,7 @@
 import { useContext, createContext, useEffect, useState } from 'react';
 import { doc, getDoc, addDoc, collection, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useAuth } from '../AuthContext';
 
 
 const EducationContext = createContext();
@@ -9,7 +10,16 @@ export const EducationContextProvider = ({ children }) => {
 
     const [educationData, setEducationData] = useState('')
 
-    const educationDocRef = doc(db, "educationCollection", 'educationDoc');
+    const { uid } = useAuth();
+    const [educationDocRef, setEducationDocRef] = useState(null)
+
+    //  uid is async so I have to check
+    useEffect(() => {
+        if (uid) {
+            setEducationDocRef(doc(db, "educationCollection", uid));
+        }
+    }, [uid]);
+
 
     // Create education infos in firebase
     const createEducationFirebase = async (education) => {
@@ -46,8 +56,12 @@ export const EducationContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        readEducationFirebase()
-    }, [])
+        if (educationDocRef) {
+            readEducationFirebase()
+        }
+    }, [educationDocRef])
+
+
 
 
     // Export to other files

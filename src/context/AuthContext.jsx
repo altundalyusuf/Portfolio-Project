@@ -14,7 +14,14 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
 
     const [user, setUser] = useState({});
+    const [uid, setUid] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            setUid(user.uid);
+        }
+    }, [user]);
 
     // Sign in with Google
     const googleSignIn = () => {
@@ -51,6 +58,7 @@ export const AuthContextProvider = ({ children }) => {
         googleSignIn,
         logOut,
         user,
+        uid,
     }
 
     return (

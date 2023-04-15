@@ -1,34 +1,24 @@
 import { useContext, createContext, useEffect, useState } from 'react';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useAuth } from '../AuthContext';
 
 
 const IntroContext = createContext();
 
 export const IntroContextProvider = ({ children }) => {
-    // Intro firebase collection
-    const introDocRef = doc(db, "introCollection", "introDoc");
-    // State initial value
-    let initialValue;
-    // Read from firebase when initializing state
-    const initialFirebaseIntro = async () => {
-        try {
-            const doc = await getDoc(introDocRef)
-            if (doc.exists()) {
-                const data = doc.data();
-                const introStringField = data.introStringField;
-                initialValue = introStringField;
-            }
+
+    const { uid } = useAuth();
+    const [introDocRef, setIntroDocRef] = useState(null)
+    // uid is async so I have to check
+    useEffect(() => {
+        if (uid) {
+            setIntroDocRef(doc(db, "introCollection", uid));
         }
-        catch (error) {
-            console.error("Intro Doküman görüntülerken hata: ", error);
-        }
-    }
+    }, [uid]);
+
     // introText state
-    const [introText, setIntroText] = useState(() => {
-        initialFirebaseIntro();
-        return initialValue;
-    });
+    const [introText, setIntroText] = useState('');
 
 
     // Create intro text in firebase
@@ -51,9 +41,6 @@ export const IntroContextProvider = ({ children }) => {
                 const introStringField = data.introStringField;
                 setIntroText(introStringField);
             }
-            else {
-                console.log("Intro Dokümanı bulunamadı!");
-            }
         }
         catch (error) {
             console.error("Intro Dokümanı görüntülerken hata: ", error);
@@ -62,8 +49,10 @@ export const IntroContextProvider = ({ children }) => {
 
 
     useEffect(() => {
-        readIntroFirebase()
-    }, [])
+        if (introDocRef) {
+            readIntroFirebase()
+        }
+    }, [introDocRef])
 
 
     // Export to other files

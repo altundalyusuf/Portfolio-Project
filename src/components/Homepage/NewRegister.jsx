@@ -5,7 +5,7 @@ const NewRegister = () => {
     return (
         <div className="md:container md:mx-auto pb-11">
             <div className='text-center flex flex-col justify-between'>
-                <h1 className='text-center text-3xl font-bold pt-11 pb-3 bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-violet-500 hover:bg-gradient-to-r hover:from-violet-500 hover:to-amber-300 cursor-pointer'>Portolyo Oluşturucuya Hoşgeldin!</h1>
+                <h1 className='text-center text-3xl font-bold pt-11 pb-3 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-violet-500 hover:bg-gradient-to-r hover:from-violet-500 hover:to-orange-500 cursor-pointer'>Portolyo Oluşturucuya Hoşgeldin!</h1>
                 <h1 className='text-center text-xl font-bold py-3 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-violet-500 hover:bg-gradient-to-r hover:from-violet-500 hover:to-orange-500 cursor-pointer'>Üyeliğini tamamladığına göre artık kendi portfolyonu oluşturmaya başlayabilirsin.</h1>
                 <h3 className='text-center text-xl font-bold pt-4 pb-6 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-violet-500 hover:bg-gradient-to-r hover:from-violet-500 hover:to-orange-500 cursor-pointer'>Portfolyonu düzenlemeye başlamak için yapman gereken adımlar:</h3>
 
@@ -27,7 +27,7 @@ const NewRegister = () => {
                                     <img src={welcomePic} />
                                 </div>
                             </div>
-                            <div className="chat-bubble">Hesabım sayfasından kullanıcı adını ve profil fotoğrafını ekleyeyip değiştirebilirsin.</div>
+                            <div className="chat-bubble">Hesabım sayfasından kullanıcı adını ve profil fotoğrafını ekleyip değiştirebilirsin.</div>
                         </div>
                     </li>
                     <li>
@@ -99,6 +99,16 @@ const NewRegister = () => {
                                 </div>
                             </div>
                             <div className="chat-bubble">Yeni makale eklemek için üst çubukta bulunan <span className='text-warning'>Gönderi Oluştur</span> butonuna basabilir ve açılan sayfada gönderin ile ilgili alanları dolurabilirsin.</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div className="chat chat-end">
+                            <div className="chat-image avatar">
+                                <div className="w-10 rounded-full">
+                                    <img src={welcomePic} />
+                                </div>
+                            </div>
+                            <div className="chat-bubble">Makalelerini oluşturmaya başladığında bu sayfada görüntülenecekler. Mükemmel bir portolyo oluşturacağına eminiz :)</div>
                         </div>
                     </li>
                 </ul>

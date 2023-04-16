@@ -1,67 +1,65 @@
-import { useContext, createContext, useEffect, useState } from 'react';
-import { doc, getDoc, addDoc, collection, deleteDoc } from 'firebase/firestore';
+import { useContext, createContext, useState } from 'react';
+import { doc, addDoc, collection, deleteDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useAuth } from '../AuthContext';
 
 
 const ArticleContext = createContext();
 
 export const ArticleContextProvider = ({ children }) => {
 
-    const [articleData, setArticleData] = useState('')
+    const [card, setCard] = useState([])
 
-    const articleDocRef = doc(db, "articleCollection", 'articleDoc');
+    const { uid } = useAuth();
 
-    // Create Article infos in firebase
-    const createArticleFirebase = async ({ modalInput, photoURL }) => {
-        // console.log(modalInput, photoURL);
+    // write data
+    const writeArticle = async ({ modalInput, photoURL }) => {
         try {
-            await addDoc(collection(db, 'articleCollection'), {
+            await addDoc(collection(db, "users", uid, "articleCollection"), {
                 name: modalInput.name,
                 category: modalInput.category,
                 authorRole: modalInput.authorRole,
                 dates: modalInput.dates,
                 text: modalInput.text,
                 photo: photoURL,
+            });
+            console.log("Article Document written.");
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+    // read data function
+    const readArticle = async () => {
+        const querySnapshot = await getDocs(collection(db, "users", uid, "articleCollection"));
+        const dataArray = [];
+        querySnapshot.forEach((doc) => {
+            dataArray.push({
+                id: doc.id,
+                data: doc.data(),
             })
-            setArticleData('')
-        } catch (error) {
-            console.error("Makale Dokümanını eklerken hata: ", error);
-        }
+        });
+        setCard(dataArray);
     }
 
-    // Read from firebase
-    const readArticleFirebase = async () => {
+
+    // delete from firebase
+    const deleteArticle = async (id) => {
         try {
-            const doc = await getDoc(articleDocRef)
-            if (doc.exists()) {
-                const articleData = doc.data();
-                setArticleData(articleData);
-            }
-        }
-        catch (error) {
-            console.error("Makale Dokümanı görüntülerken hata: ", error);
+            await deleteDoc(doc(db, 'users', uid, "articleCollection", id));
+            console.log("Article Document deleted.");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
         }
     }
-
-    const deleteArticle = async (dataID) => {
-        await deleteDoc(doc(db, "articleCollection", dataID));
-    }
-
-
-    useEffect(() => {
-        readArticleFirebase()
-    }, [])
-
 
     // Export to other files
     const values = {
-        articleData,
-        setArticleData,
-        createArticleFirebase,
-        readArticleFirebase,
         deleteArticle,
+        writeArticle,
+        readArticle,
+        card,
     }
-
 
 
     return (

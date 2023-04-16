@@ -45,7 +45,7 @@ const Intro = () => {
                     </svg>
                 </label>
 
-                <h1 className="text-3xl md:text-3xl font-bold pt-8 text-black ">{user.displayName ? user.displayName : 'Kullanıcı adınızı hesabım kısmından güncelleyebilirsiniz'}</h1>
+                <h1 className="text-3xl md:text-3xl font-bold pt-8 text-black ">{user.displayName ? user.displayName : 'Kullanıcı adınızı ve profil fotoğrafınızı hesabım kısmından güncelleyebilirsiniz'}</h1>
                 <p className="py-6 px-4 text-black ">{isLoading ? 'Yükleniyor...' : introText}</p>
 
                 {/* **MODAL** Put this part before </body> tag */}

@@ -2,7 +2,7 @@ import { useContext, createContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
-const defaultTheme = localStorage.getItem("theme") || "light";
+const defaultTheme = localStorage.getItem("theme") || "cupcake";
 
 
 export const ThemeContextProvider = ({ children }) => {

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { collection, onSnapshot, query } from 'firebase/firestore';
-import { db } from '../../firebase';
 import { useProject } from '../../context/PortfolioContext/ProjectContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Projects = () => {
+
+    const { uid } = useAuth()
 
     // state for sending Modal informations to firebase 
     const [modalInput, setModalInput] = useState({
@@ -11,10 +12,8 @@ const Projects = () => {
         dates: '',
         text: '',
     });
-    // state for when we read from firestore
-    const [card, setCard] = useState([]);
 
-    const { createProjectFirebase, readProjectFirebase, deleteProject } = useProject();
+    const { deleteProject, writeProject, readProject, card } = useProject();
 
     const nameRef = useRef('');
     const datesRef = useRef('');
@@ -32,32 +31,27 @@ const Projects = () => {
     // create new card and save to firebase
     const handleClick = async () => {
         // Save content to firebase
-        await createProjectFirebase(modalInput);
+        await writeProject(modalInput);
         // Read from firebase
-        await readProjectFirebase();
+        await readProject();
         // Clear inside of modal
         nameRef.current.value = "";
         datesRef.current.value = "";
         textRef.current.value = "";
     }
 
-    const handleDelete = async (dataID) => {
-        deleteProject(dataID);
+    const handleDelete = async (id) => {
+        await deleteProject(id);
+        await readProject();
     }
 
-
-    // Read data from firebase
+    // Oturum bilgileri yerleştikten sonra kişinin uid'sine göre veriyi çek.
     useEffect(() => {
-        const q = query(collection(db, 'projectCollection'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let projects = [];
-            querySnapshot.forEach((doc) => {
-                projects.push({ ...doc.data(), id: doc.id });
-            });
-            setCard(projects);
-        });
-        return () => unsubscribe();
-    }, []);
+        if (uid) {
+            readProject();
+        }
+    }, [uid])
+
 
     return (
         <div>
@@ -72,10 +66,10 @@ const Projects = () => {
             <div className="grid grid-cols-6">
                 {/* Arka Planları sil turuncu ve yeşili */}
                 {card &&
-                    card.map((data) => (
-                        <div key={data.id} className='p-3 col-span-6 bg-primary rounded flex items-center md:justify-start'>
+                    card.map(({ id, data }, index) => (
+                        <div key={index} className='p-3 col-span-6 bg-primary rounded flex items-center md:justify-start'>
                             <div className="card w-96 md:w-full bg-base-100 shadow-xl relative">
-                                <label onClick={() => handleDelete(data.id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
+                                <label onClick={() => handleDelete(id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>

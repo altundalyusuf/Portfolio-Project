@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import welcomePic from '../../assets/welcome-pic.jpg';
-import { collection, onSnapshot, query } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { useAuth } from '../../context/AuthContext';
+import { useArticle } from '../../context/PortfolioContext/ArticleContext';
+import NewRegister from '../../components/Homepage/NewRegister';
 
 const Home = () => {
 
-    // state for when we read from firestore
-    const [card, setCard] = useState([]);
+    const { uid } = useAuth();
+    const { readArticle, deleteArticle, card } = useArticle();
 
-    // Read data from firebase
+    // Oturum bilgileri yerleştikten sonra kişinin uid'sine göre veriyi çek.
     useEffect(() => {
-        const q = query(collection(db, 'articleCollection'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let articles = [];
-            querySnapshot.forEach((doc) => {
-                articles.push({ ...doc.data(), id: doc.id });
-            });
-            setCard(articles);
-        });
-        return () => unsubscribe();
-    }, []);
+        if (uid) {
+            readArticle();
+        }
+    }, [uid])
 
+    if (card.lenght === undefined) {
+        return (
+            <NewRegister />
+        )
+    }
 
     return (
         <div className='bg-slate-50'>
@@ -30,10 +30,10 @@ const Home = () => {
                 {/* Grid */}
                 <div className="grid grid-flow-row grid-12 rounded bg-primary-focus pt-5">
 
-                    {card.map((data) => (
+                    {card.map(({ id, data }, index) => (
                         // Arka Planları sil turuncu ve yeşili 
                         // Image 
-                        <div key={data.id}>
+                        <div key={index}>
                             <div className='col-span-12  flex items-center justify-center'>
                                 <div className='w-32 md:w-72 bg-slate-700'>
                                     <img src={data.photo || welcomePic} className='w-full' alt="welcome-pic" />
@@ -49,9 +49,6 @@ const Home = () => {
                                 <div className="self-end pe-8 mb-5 md:mb-0">
                                     <span>{data.dates}</span>
                                 </div>
-                                {/* <div className="justify-center pb-5">
-                                    <button className="btn btn-primary">İçeriği Gör</button>
-                                </div> */}
                             </div>
                             <div className="divider"></div>
                         </div>

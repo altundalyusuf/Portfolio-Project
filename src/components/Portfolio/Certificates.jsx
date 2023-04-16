@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useCertificate } from '../../context/PortfolioContext/CertificateContext'
 import { db } from '../../firebase';
+import { useAuth } from '../../context/AuthContext';
 
 
 
 const Certificates = () => {
+
+    const { uid } = useAuth()
 
     // state for sending Modal informations to firebase 
     const [modalInput, setModalInput] = useState({
@@ -13,10 +16,8 @@ const Certificates = () => {
         company: '',
         dates: '',
     });
-    // state for when we read from firestore
-    const [card, setCard] = useState([]);
 
-    const { createCertificateFirebase, readCertificateFirebase, deleteCertificate } = useCertificate();
+    const { deleteCertificate, writeCertificate, readCertificate, card } = useCertificate();
 
     const nameRef = useRef('');
     const companyRef = useRef('');
@@ -34,33 +35,28 @@ const Certificates = () => {
     // create new card and save to firebase
     const handleClick = async () => {
         // Save content to firebase
-        await createCertificateFirebase(modalInput);
+        await writeCertificate(modalInput);
         // Read from firebase
-        await readCertificateFirebase();
+        await readCertificate();
         // Clear inside of modal
         nameRef.current.value = "";
         companyRef.current.value = "";
         datesRef.current.value = "";
     }
 
-    const handleDelete = async (dataID) => {
-        deleteCertificate(dataID);
-
+    const handleDelete = async (id) => {
+        await deleteCertificate(id);
+        await readCertificate();
     }
 
-
-    // Read data from firebase
+    // Oturum bilgileri yerleştikten sonra kişinin uid'sine göre veriyi çek.
     useEffect(() => {
-        const q = query(collection(db, 'certificateCollection'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let certificate = [];
-            querySnapshot.forEach((doc) => {
-                certificate.push({ ...doc.data(), id: doc.id });
-            });
-            setCard(certificate);
-        });
-        return () => unsubscribe();
-    }, []);
+        if (uid) {
+            readCertificate();
+        }
+    }, [uid])
+
+
 
     return (
         <>
@@ -76,10 +72,10 @@ const Certificates = () => {
                 {/* Arka Planları sil turuncu ve yeşili */}
 
                 {card &&
-                    card.map((data) => (
-                        <div key={data.id} className='p-3 col-span-6 md:col-span-3 bg-primary rounded flex items-center md:justify-start'>
+                    card.map(({ id, data }, index) => (
+                        <div key={index} className='p-3 col-span-6 md:col-span-3 bg-primary rounded flex items-center md:justify-start'>
                             <div className="card w-96 bg-base-100 shadow-xl relative">
-                                <label onClick={() => handleDelete(data.id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
+                                <label onClick={() => handleDelete(id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>

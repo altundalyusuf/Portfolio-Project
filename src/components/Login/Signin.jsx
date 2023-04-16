@@ -42,6 +42,9 @@ const Signin = () => {
             else if (err.message === 'Firebase: Error (auth/invalid-email).') {
                 errorRef.current.innerHTML = errorMessage('Geçersiz mail adresi')
             }
+            else if (err.message === 'Firebase: Error (auth/user-not-found).') {
+                errorRef.current.innerHTML = errorMessage('Böyle bir hesap bulunmamaktadır.')
+            }
             else {
                 errorRef.current.innerHTML = errorMessage(err.message)
             }

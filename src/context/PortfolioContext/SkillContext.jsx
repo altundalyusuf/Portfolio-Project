@@ -1,61 +1,60 @@
 import { useContext, createContext, useEffect, useState } from 'react';
-import { doc, getDoc, addDoc, collection, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc, addDoc, collection, deleteDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useAuth } from '../AuthContext';
 
 
 const SkillContext = createContext();
 
 export const SkillContextProvider = ({ children }) => {
 
-    const [skillData, setSkillData] = useState('')
+    const [card, setCard] = useState([])
 
-    const skillDocRef = doc(db, "skillCollection", 'skillDoc');
+    const { uid } = useAuth();
 
-    // Create skill infos in firebase
-    const createSkillFirebase = async (skill) => {
+    // write data
+    const writeSkill = async (skill) => {
         try {
-            await addDoc(collection(db, 'skillCollection'), {
+            await addDoc(collection(db, "users", uid, "skillCollection"), {
                 name: skill.name,
+            });
+            console.log("Skill Document written.");
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+    // read data function
+    const readSkill = async () => {
+        const querySnapshot = await getDocs(collection(db, "users", uid, "skillCollection"));
+        const dataArray = [];
+        querySnapshot.forEach((doc) => {
+            dataArray.push({
+                id: doc.id,
+                data: doc.data(),
             })
-            setSkillData('')
-        } catch (error) {
-            console.error("Yetenek Dokümanını eklerken hata: ", error);
-        }
+        });
+        setCard(dataArray);
     }
 
-    // Read from firebase
-    const readSkillFirebase = async () => {
-        try {
-            const doc = await getDoc(skillDocRef)
-            if (doc.exists()) {
-                const skillData = doc.data();
-                setSkillData(skillData);
-            }
-        }
-        catch (error) {
-            console.error("Yetenek Dokümanı görüntülerken hata: ", error);
-        }
-    }
-
+    // delete from firebase
     const deleteSkill = async (dataID) => {
-        await deleteDoc(doc(db, "skillCollection", dataID));
+        try {
+            await deleteDoc(doc(db, 'users', uid, "skillCollection", dataID));
+            console.log("Skill Document deleted.");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+        }
     }
-
-
-    useEffect(() => {
-        readSkillFirebase()
-    }, [])
 
 
     // Export to other files
     const values = {
-        skillData,
-        setSkillData,
-        createSkillFirebase,
-        readSkillFirebase,
         deleteSkill,
+        writeSkill,
+        readSkill,
+        card,
     }
-
 
 
     return (

@@ -1,61 +1,61 @@
-import { useContext, createContext, useEffect, useState } from 'react';
-import { doc, getDoc, addDoc, collection, deleteDoc } from 'firebase/firestore';
+import { useContext, createContext, useState } from 'react';
+import { doc, addDoc, collection, deleteDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useAuth } from '../AuthContext';
 
 
 const ProjectContext = createContext();
 
 export const ProjectContextProvider = ({ children }) => {
 
-    const [projectData, setProjectData] = useState('')
+    const [card, setCard] = useState([])
 
-    const projectDocRef = doc(db, "projectCollection", 'projectDoc');
+    const { uid } = useAuth();
 
-    // Create Project infos in firebase
-    const createProjectFirebase = async (project) => {
+    // write data
+    const writeProject = async (project) => {
         try {
-            await addDoc(collection(db, 'projectCollection'), {
+            await addDoc(collection(db, "users", uid, "projectCollection"), {
                 name: project.name,
                 dates: project.dates,
                 text: project.text,
+            });
+            console.log("Project Document written.");
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+
+    // read data function
+    const readProject = async () => {
+        const querySnapshot = await getDocs(collection(db, "users", uid, "projectCollection"));
+        const dataArray = [];
+        querySnapshot.forEach((doc) => {
+            dataArray.push({
+                id: doc.id,
+                data: doc.data(),
             })
-            setProjectData('')
-        } catch (error) {
-            console.error("Proje Dokümanını eklerken hata: ", error);
-        }
+        });
+        setCard(dataArray);
     }
 
-    // Read from firebase
-    const readProjectFirebase = async () => {
+    // delete from firebase
+    const deleteProject = async (id) => {
         try {
-            const doc = await getDoc(projectDocRef)
-            if (doc.exists()) {
-                const projectData = doc.data();
-                setProjectData(projectData);
-            }
-        }
-        catch (error) {
-            console.error("Proje Dokümanı görüntülerken hata: ", error);
+            await deleteDoc(doc(db, 'users', uid, "projectCollection", id));
+            console.log("Project Document deleted.");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
         }
     }
-
-    const deleteProject = async (dataID) => {
-        await deleteDoc(doc(db, "projectCollection", dataID));
-    }
-
-
-    useEffect(() => {
-        readProjectFirebase()
-    }, [])
-
 
     // Export to other files
     const values = {
-        projectData,
-        setProjectData,
-        createProjectFirebase,
-        readProjectFirebase,
         deleteProject,
+        writeProject,
+        readProject,
+        card,
     }
 
 

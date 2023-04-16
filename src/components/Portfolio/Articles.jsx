@@ -1,6 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { collection, onSnapshot, query } from 'firebase/firestore';
-import { db } from '../../firebase';
+import React, { useEffect, useRef } from 'react'
 import { useArticle } from '../../context/PortfolioContext/ArticleContext';
 import { useAuth } from '../../context/AuthContext';
 
@@ -8,33 +6,24 @@ import { useAuth } from '../../context/AuthContext';
 
 const Articles = () => {
 
-    // state for when we read from firestore
-    const [card, setCard] = useState([]);
+    const { user, uid } = useAuth();
 
+    // For modal delete button to get document id of deleting article
     const deleteRef = useRef();
 
-    const { deleteArticle } = useArticle();
-    const { user } = useAuth();
+    const { readArticle, deleteArticle, card } = useArticle();
 
-
-    const handleDelete = async (dataID) => {
-        deleteArticle(dataID);
+    const handleDelete = async (id) => {
+        await deleteArticle(id);
+        await readArticle();
     }
 
-
-    // Read data from firebase
+    // Oturum bilgileri yerleştikten sonra kişinin uid'sine göre veriyi çek.
     useEffect(() => {
-        const q = query(collection(db, 'articleCollection'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let articles = [];
-            querySnapshot.forEach((doc) => {
-                articles.push({ ...doc.data(), id: doc.id });
-            });
-            setCard(articles);
-        });
-        return () => unsubscribe();
-    }, []);
-
+        if (uid) {
+            readArticle();
+        }
+    }, [uid])
 
     return (
         <>
@@ -50,10 +39,10 @@ const Articles = () => {
                         </p>
                     </div>
                     <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-10 sm:mt-7 sm:pt-7 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-                        {card.map((data) => (
-                            <article key={data.id} className="flex max-w-xl flex-col items-start justify-between relative">
+                        {card.map(({ id, data }, index) => (
+                            <article key={index} className="flex max-w-xl flex-col items-start justify-between relative">
                                 <div className='w-32 md:w-full bg-slate-700 flex items-center justify-center'>
-                                    <label onClick={() => deleteRef.current = data.id} htmlFor="my-modal-7" className="btn btn-square btn-error gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
+                                    <label onClick={() => deleteRef.current = id} htmlFor="my-modal-7" className="btn btn-square btn-error gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                         </svg>

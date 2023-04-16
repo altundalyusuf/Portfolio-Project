@@ -1,10 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { storage } from '../../firebase';
 import { useArticle } from '../../context/PortfolioContext/ArticleContext';
-import { useAuth } from '../../context/AuthContext';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { useAuth } from '../../context/AuthContext';
 
 const PostForm = () => {
+
+    const { user } = useAuth();
+
     // state for sending Modal informations to firebase 
     const [modalInput, setModalInput] = useState({
         name: '',
@@ -18,7 +21,7 @@ const PostForm = () => {
     // If uploading; don't click button again
     const [loading, setLoading] = useState(false);
 
-    const { createArticleFirebase, readArticleFirebase } = useArticle();
+    const { writeArticle, readArticle } = useArticle();
 
     const nameRef = useRef('');
     const categoryRef = useRef('');
@@ -26,9 +29,6 @@ const PostForm = () => {
     const datesRef = useRef('');
     const textRef = useRef('');
     const photoRef = useRef();
-
-
-    const { user } = useAuth();
 
     // If inputs not changed then don't submit
     const condition = !photo || !modalInput.name || !modalInput.category || !modalInput.authorRole || !modalInput.dates || !modalInput.text
@@ -66,9 +66,9 @@ const PostForm = () => {
         e.preventDefault();
         let photoURL = await upload(photo, user, setLoading)
         // // Save content to firebase
-        await createArticleFirebase({ modalInput, photoURL });
+        await writeArticle({ modalInput, photoURL });
         // // Read from firebase
-        await readArticleFirebase();
+        await readArticle();
         alert('Gönderi başarıyla oluşturuldu.');
         // Clear inside of modal
         nameRef.current.value = "";

@@ -2,17 +2,18 @@ import React, { useEffect, useRef, useState } from 'react'
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useSkill } from '../../context/PortfolioContext/SkillContext'
 import { db } from '../../firebase';
+import { useAuth } from '../../context/AuthContext';
 
 const Skills = () => {
+
+    const { uid } = useAuth()
 
     // state for sending Modal informations to firebase 
     const [modalInput, setModalInput] = useState({
         name: '',
     });
-    // state for when we read from firestore
-    const [card, setCard] = useState([]);
 
-    const { createSkillFirebase, readSkillFirebase, deleteSkill } = useSkill();
+    const { writeSkill, readSkill, deleteSkill, card } = useSkill();
 
     const nameRef = useRef('');
 
@@ -28,31 +29,27 @@ const Skills = () => {
     // create new card and save to firebase
     const handleClick = async () => {
         // Save content to firebase
-        await createSkillFirebase(modalInput);
+        await writeSkill(modalInput);
         // Read from firebase
-        await readSkillFirebase();
+        await readSkill();
         // Clear inside of modal
         nameRef.current.value = "";
     }
 
-    const handleDelete = async (dataID) => {
-        deleteSkill(dataID);
-
+    const handleDelete = async (id) => {
+        await deleteSkill(id);
+        await readSkill();
     }
 
 
-    // Read data from firebase
+    // Oturum bilgileri yerleştikten sonra kişinin uid'sine göre veriyi çek.
     useEffect(() => {
-        const q = query(collection(db, 'skillCollection'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let skill = [];
-            querySnapshot.forEach((doc) => {
-                skill.push({ ...doc.data(), id: doc.id });
-            });
-            setCard(skill);
-        });
-        return () => unsubscribe();
-    }, []);
+        if (uid) {
+            readSkill();
+        }
+    }, [uid])
+
+
 
     return (
         <>
@@ -67,9 +64,9 @@ const Skills = () => {
             </div>
 
             {card &&
-                card.map((data) => (
-                    <div key={data.id} className="badge badge-primary text-black hover:scale-125 hover:me-5 hover:cursor-pointer gap-2 me-2">
-                        <svg onClick={() => handleDelete(data.id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 hover:cursor-pointer stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                card.map(({ id, data }, index) => (
+                    <div key={index} className="badge badge-primary text-black hover:scale-125 hover:me-5 hover:cursor-pointer gap-2 me-2">
+                        <svg onClick={() => handleDelete(id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-4 h-4 hover:cursor-pointer stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         {data?.name}
                     </div>
                 ))}

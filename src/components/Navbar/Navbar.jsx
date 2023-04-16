@@ -50,7 +50,7 @@ const Navbar = () => {
 
                                 </div>
                             </a>
-                            <div className="dropdown dropdown-end md:me-20 text-black">
+                            <div className="dropdown dropdown-end md:me-20 ">
                                 {/* My Account Dropdown */}
                                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                     <div className="w-full rounded-full">
@@ -63,7 +63,7 @@ const Navbar = () => {
                                         }
                                     </div>
                                 </label>
-                                <ul tabIndex={0} className="menu dropdown-content p-2 shadow bg-primary rounded-box w-52 mt-4">
+                                <ul tabIndex={0} className="menu dropdown-content p-2 shadow text-black bg-primary rounded-box w-52 mt-4">
                                     {/* Profile */}
                                     <li className='hover:bg-primary-focus'>
                                         <a className="justify-between" href='account'>

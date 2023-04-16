@@ -37,7 +37,7 @@ const Intro = () => {
                 </div>
             </div>
             {/* Content */}
-            <div className='col-span-2 bg-primary rounded text-center flex flex-col justify-center text-black relative'>
+            <div className='col-span-2 bg-primary rounded text-center flex flex-col justify-center relative'>
                 {/* Edit button to open modal */}
                 <label htmlFor="my-modal-6" className="btn btn-square btn-primary gap-2 btn-sm md:btn-md absolute top-0 right-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
@@ -45,8 +45,8 @@ const Intro = () => {
                     </svg>
                 </label>
 
-                <h1 className="text-3xl md:text-3xl font-bold pt-8">{user.displayName ? user.displayName : 'Kullanıcı adınızı hesabım kısmından güncelleyebilirsiniz'}</h1>
-                <p className="py-6 px-4">{isLoading ? 'Yükleniyor...' : introText}</p>
+                <h1 className="text-3xl md:text-3xl font-bold pt-8 text-black ">{user.displayName ? user.displayName : 'Kullanıcı adınızı hesabım kısmından güncelleyebilirsiniz'}</h1>
+                <p className="py-6 px-4 text-black ">{isLoading ? 'Yükleniyor...' : introText}</p>
 
                 {/* **MODAL** Put this part before </body> tag */}
                 <input type="checkbox" id="my-modal-6" className="modal-toggle" />

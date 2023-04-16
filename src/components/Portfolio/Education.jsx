@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { collection, onSnapshot, query } from 'firebase/firestore';
 import { useEducation } from '../../context/PortfolioContext/EducationContext';
-import { db } from '../../firebase';
+import { useAuth } from '../../context/AuthContext';
 
 const Education = () => {
+
+    const { uid } = useAuth()
+
     // state for sending Modal informations to firebase 
     const [modalInput, setModalInput] = useState({
         school: '',
@@ -11,10 +13,8 @@ const Education = () => {
         dates: '',
         grade: ''
     });
-    // state for when we read from firestore
-    const [card, setCard] = useState([]);
 
-    const { createEducationFirebase, readEducationFirebase, deleteEducation } = useEducation();
+    const { deleteEducation, writeEducation, readEducation, card } = useEducation();
     const schoolRef = useRef('');
     const departmentRef = useRef('');
     const datesRef = useRef('');
@@ -32,9 +32,9 @@ const Education = () => {
     // create new card and save to firebase
     const handleClick = async () => {
         // Save content to firebase
-        await createEducationFirebase(modalInput);
+        await writeEducation(modalInput);
         // Read from firebase
-        await readEducationFirebase();
+        await readEducation();
         // Clear inside of modal
         schoolRef.current.value = "";
         departmentRef.current.value = "";
@@ -42,24 +42,19 @@ const Education = () => {
         gradeRef.current.value = "";
     }
 
-    const handleDelete = async (dataID) => {
-        deleteEducation(dataID);
-
+    const handleDelete = async (id) => {
+        await deleteEducation(id);
+        await readEducation();
     }
 
-
-    // Read data from firebase
+    // Oturum bilgileri yerleştikten sonra kişinin uid'sine göre veriyi çek.
     useEffect(() => {
-        const q = query(collection(db, 'educationCollection'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let educations = [];
-            querySnapshot.forEach((doc) => {
-                educations.push({ ...doc.data(), id: doc.id });
-            });
-            setCard(educations);
-        });
-        return () => unsubscribe();
-    }, []);
+        if (uid) {
+            readEducation();
+        }
+    }, [uid])
+
+
 
     return (
         <>
@@ -76,10 +71,10 @@ const Education = () => {
             <div className="grid grid-cols-6">
                 {/* Arka Planları sil turuncu ve yeşili */}
                 {card &&
-                    card.map((data) => (
-                        <div key={data.id} className='p-3 col-span-6 md:col-span-3 bg-primary rounded flex items-center md:justify-start'>
+                    card.map(({ id, data }, index) => (
+                        <div key={index} className='p-3 col-span-6 md:col-span-3 bg-primary rounded flex items-center md:justify-start'>
                             <div className="card w-96 bg-base-100 shadow-xl relative">
-                                <label onClick={() => handleDelete(data.id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
+                                <label onClick={() => handleDelete(id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>

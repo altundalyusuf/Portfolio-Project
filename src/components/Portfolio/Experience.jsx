@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { collection, onSnapshot, query } from 'firebase/firestore';
-import { db } from '../../firebase';
 import { useExperience } from '../../context/PortfolioContext/ExperienceContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Experience = () => {
+
+    const { uid } = useAuth()
 
     // state for sending Modal informations to firebase 
     const [modalInput, setModalInput] = useState({
@@ -13,16 +14,15 @@ const Experience = () => {
         location: '',
         text: '',
     });
-    // state for when we read from firestore
-    const [card, setCard] = useState([]);
 
-    const { createExperienceFirebase, readExperienceFirebase, deleteExperience } = useExperience();
+    const { deleteExperience, writeExperience, readExperience, card } = useExperience();
 
     const positionRef = useRef('');
     const companyRef = useRef('');
     const datesRef = useRef('');
     const locationRef = useRef('');
     const textRef = useRef('');
+
 
     // Modal Input handlechange
     const handleChange = (e) => {
@@ -36,9 +36,9 @@ const Experience = () => {
     // create new card and save to firebase
     const handleClick = async () => {
         // Save content to firebase
-        await createExperienceFirebase(modalInput);
+        await writeExperience(modalInput);
         // Read from firebase
-        await readExperienceFirebase();
+        await readExperience();
         // Clear inside of modal
         positionRef.current.value = "";
         companyRef.current.value = "";
@@ -47,24 +47,19 @@ const Experience = () => {
         textRef.current.value = "";
     }
 
-    const handleDelete = async (dataID) => {
-        deleteExperience(dataID);
-
+    const handleDelete = async (id) => {
+        await deleteExperience(id);
+        await readExperience();
     }
 
 
-    // Read data from firebase
+
+    // Oturum bilgileri yerleştikten sonra kişinin uid'sine göre veriyi çek.
     useEffect(() => {
-        const q = query(collection(db, 'experienceCollection'));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            let experiences = [];
-            querySnapshot.forEach((doc) => {
-                experiences.push({ ...doc.data(), id: doc.id });
-            });
-            setCard(experiences);
-        });
-        return () => unsubscribe();
-    }, []);
+        if (uid) {
+            readExperience();
+        }
+    }, [uid])
 
     return (
         <>
@@ -81,10 +76,10 @@ const Experience = () => {
             <div className="grid grid-cols-6">
                 {/* Arka Planları sil turuncu ve yeşili */}
                 {card &&
-                    card.map((data) => (
-                        <div key={data.id} className='p-3 col-span-6 bg-primary rounded flex items-center md:justify-start'>
+                    card.map(({ id, data }, index) => (
+                        <div key={index} className='p-3 col-span-6 bg-primary rounded flex items-center md:justify-start'>
                             <div className="card w-96 md:w-full bg-base-100 shadow-xl relative">
-                                <label onClick={() => handleDelete(data.id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
+                                <label onClick={() => handleDelete(id)} className="btn btn-square btn-ghost gap-2 btn-sm md:btn-md absolute top-0 right-0 hover:bg-red-400 hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>

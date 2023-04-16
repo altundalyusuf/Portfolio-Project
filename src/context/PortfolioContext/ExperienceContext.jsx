@@ -1,63 +1,62 @@
-import { useContext, createContext, useEffect, useState } from 'react';
-import { doc, getDoc, addDoc, collection, deleteDoc } from 'firebase/firestore';
+import { useContext, createContext, useState } from 'react';
+import { doc, addDoc, collection, deleteDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useAuth } from '../AuthContext';
 
 
 const ExperienceContext = createContext();
 
 export const ExperienceContextProvider = ({ children }) => {
 
-    const [experienceData, setExperienceData] = useState('')
+    const [card, setCard] = useState([])
 
-    const experienceDocRef = doc(db, "experienceCollection", 'experienceDoc');
+    const { uid } = useAuth();
 
-    // Create experience infos in firebase
-    const createExperienceFirebase = async (experience) => {
+    // write data
+    const writeExperience = async (experience) => {
         try {
-            await addDoc(collection(db, 'experienceCollection'), {
+            await addDoc(collection(db, "users", uid, "experienceCollection"), {
                 position: experience.position,
                 company: experience.company,
                 dates: experience.dates,
                 location: experience.location,
                 text: experience.text,
+            });
+            console.log("Experience Document written.");
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+    // read data function
+    const readExperience = async () => {
+        const querySnapshot = await getDocs(collection(db, "users", uid, "experienceCollection"));
+        const dataArray = [];
+        querySnapshot.forEach((doc) => {
+            dataArray.push({
+                id: doc.id,
+                data: doc.data(),
             })
-            setExperienceData('')
-        } catch (error) {
-            console.error("Deneyim Dokümanını eklerken hata: ", error);
-        }
+        });
+        setCard(dataArray);
     }
 
-    // Read from firebase
-    const readExperienceFirebase = async () => {
-        try {
-            const doc = await getDoc(experienceDocRef)
-            if (doc.exists()) {
-                const experienceData = doc.data();
-                setExperienceData(experienceData);
-            }
-        }
-        catch (error) {
-            console.error("Deneyim Dokümanı görüntülerken hata: ", error);
-        }
-    }
-
+    // delete from firebase
     const deleteExperience = async (dataID) => {
-        await deleteDoc(doc(db, "experienceCollection", dataID));
+        try {
+            await deleteDoc(doc(db, 'users', uid, "experienceCollection", dataID));
+            console.log("Experience Document deleted.");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+        }
     }
-
-
-    useEffect(() => {
-        readExperienceFirebase()
-    }, [])
-
 
     // Export to other files
     const values = {
-        experienceData,
-        setExperienceData,
-        createExperienceFirebase,
-        readExperienceFirebase,
         deleteExperience,
+        writeExperience,
+        readExperience,
+        card,
     }
 
 

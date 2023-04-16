@@ -1,5 +1,5 @@
-import { useContext, createContext, useEffect, useState } from 'react';
-import { doc, getDoc, addDoc, collection, deleteDoc } from 'firebase/firestore';
+import { useContext, createContext, useState } from 'react';
+import { doc, addDoc, collection, deleteDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useAuth } from '../AuthContext';
 
@@ -8,69 +8,61 @@ const EducationContext = createContext();
 
 export const EducationContextProvider = ({ children }) => {
 
-    const [educationData, setEducationData] = useState('')
+    const [card, setCard] = useState([])
 
     const { uid } = useAuth();
-    const [educationDocRef, setEducationDocRef] = useState(null)
-
-    //  uid is async so I have to check
-    useEffect(() => {
-        if (uid) {
-            setEducationDocRef(doc(db, "educationCollection", uid));
-        }
-    }, [uid]);
 
 
-    // Create education infos in firebase
-    const createEducationFirebase = async (education) => {
+
+
+    // write data
+    const writeEducation = async (education) => {
         try {
-            await addDoc(collection(db, 'educationCollection'), {
+            await addDoc(collection(db, "users", uid, "educationCollection"), {
                 school: education.school,
                 department: education.department,
                 dates: education.dates,
                 grade: education.grade,
+            });
+            console.log("Education Document written.");
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+    // read data function
+    const readEducation = async () => {
+        const querySnapshot = await getDocs(collection(db, "users", uid, "educationCollection"));
+        const dataArray = [];
+        querySnapshot.forEach((doc) => {
+            dataArray.push({
+                id: doc.id,
+                data: doc.data(),
             })
-            setEducationData('')
-        } catch (error) {
-            console.error("Eğitim Dokümanını eklerken hata: ", error);
-        }
+        });
+        setCard(dataArray);
     }
 
-    // Read from firebase
-    const readEducationFirebase = async () => {
-        try {
-            const doc = await getDoc(educationDocRef)
-            if (doc.exists()) {
-                const educationData = doc.data();
-                setEducationData(educationData);
-            }
-        }
-        catch (error) {
-            console.error("Eğitim Dokümanı görüntülerken hata: ", error);
-        }
-    }
-
+    // delete from firebase
     const deleteEducation = async (dataID) => {
-        await deleteDoc(doc(db, "educationCollection", dataID));
+        try {
+            await deleteDoc(doc(db, 'users', uid, "educationCollection", dataID));
+            console.log("Education Document deleted.");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+        }
     }
 
-
-    useEffect(() => {
-        if (educationDocRef) {
-            readEducationFirebase()
-        }
-    }, [educationDocRef])
 
 
 
 
     // Export to other files
     const values = {
-        educationData,
-        setEducationData,
-        createEducationFirebase,
-        readEducationFirebase,
         deleteEducation,
+        writeEducation,
+        readEducation,
+        card,
     }
 
 

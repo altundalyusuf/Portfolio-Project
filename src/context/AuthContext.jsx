@@ -13,7 +13,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
 
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(null);
     const [uid, setUid] = useState(null);
     const navigate = useNavigate();
 

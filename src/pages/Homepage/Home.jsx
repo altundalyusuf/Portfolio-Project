@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import welcomePic from '../../assets/welcome-pic.jpg';
+import React, { useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext';
 import { useArticle } from '../../context/PortfolioContext/ArticleContext';
 import NewRegister from '../../components/Homepage/NewRegister';

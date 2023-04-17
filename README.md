@@ -1,9 +1,14 @@
 ﻿
 # Portfolyo Oluşturucu
 
-Bu projeyi Üretken Akademi Yazılımcı Fabrikası'nda bitirme projesi olarak yaptım. Projede React, Firebase, Vite, Tailwind.CSS, Daisy.ui başta olmak üzere çok şey kullandım. Proje aynı zamanda Responsive ve mobil uyumludur. Projeyi gösteren video ve ekran görüntüleri aşağıdadır.
+Bu projeyi Üretken Akademi Yazılımcı Fabrikası'nda bitirme projesi olarak yaptım. Projede React, Firebase, Vite, Tailwind.CSS, Daisy.ui başta olmak üzere çok şey kullandım. Proje aynı zamanda Responsive ve mobil uyumludur. Projenin linki ve projeyi gösteren ekran görüntüleri aşağıdadır.
 ## Projenin Amacı
 Projenin amacı; kayıt olan kişiye kendi bilgileri ile doldurabileceği bir Portfolyo sitesi sağlamaktır. Kayıt olduktan sonra kişi Ana sayfada neler yapması gerektiğine dair bir açıklama ile karşılaşır. Projeye hem Google ile hem de mail ile üye olunabilmektedir. Kişi Portfolyo sayfasında hakkında, eğitim, deneyimler, yetenekler, sertifikalar vb. birçok bilgiyi ekleyebilirken 'Gönderi Oluştur' sayfasında istediği konu ile ilgili gönderiler oluşturabilmektedir. Gönderilerine görsel ekleyebilmektedir. Kişi profil fotoğrafını ve kullanıcı adını değiştirebilmektedir. Aynı zamanda projenin temasını da değiştirebilmektedir. 
+## Demo
+Projeye aşağıdaki linkten ulaşabilirsiniz:  
+https://auth-firebase-41263.web.app
+
+  
 ## Yorumum
 Bu projeyi yaparken çok zorlandım. Firebase hakkında 0 bilgi ile başladım ve karşıma çok fazla hata ve zorluk çıktı. Fakat projeyi bitirmekte kararlılıkla devam ettim ve bu benim için çok güzel bir deneyim oldu. Ortaya büyük / orta büyüklükte çok güzel bir proje çıktı ve beni çok gururlandırdı. Bilgi birikimimi ve araştırma azmimi bu projede kullandığım ve projeyi tamamladığım için çok mutluyum. 
 ## Kullanılan Teknolojiler
@@ -51,6 +56,9 @@ Sunucuyu çalıştırın
 ![10](https://user-images.githubusercontent.com/79724222/232333680-27f8c82f-f0b8-4000-b3d3-7bc7bc4dfafe.png)
 ![11](https://user-images.githubusercontent.com/79724222/232333684-9f6655b6-d173-49e6-839c-af66da6ad340.png)
 ![12](https://user-images.githubusercontent.com/79724222/232333688-69460a3e-522c-4f7a-87da-146630830f27.png)
+![13](https://user-images.githubusercontent.com/79724222/232334085-ea3d9e7e-ca71-40a0-9d72-cc141f36d355.png)
+![14](https://user-images.githubusercontent.com/79724222/232334121-15846d96-5409-4951-adf3-2e25803f8bcb.png)
+
 
 
 

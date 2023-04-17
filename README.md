@@ -5,8 +5,9 @@ Bu projeyi Üretken Akademi Yazılımcı Fabrikası'nda bitirme projesi olarak y
 ## Projenin Amacı
 Projenin amacı; kayıt olan kişiye kendi bilgileri ile doldurabileceği bir Portfolyo sitesi sağlamaktır. Kayıt olduktan sonra kişi Ana sayfada neler yapması gerektiğine dair bir açıklama ile karşılaşır. Projeye hem Google ile hem de mail ile üye olunabilmektedir. Kişi Portfolyo sayfasında hakkında, eğitim, deneyimler, yetenekler, sertifikalar vb. birçok bilgiyi ekleyebilirken 'Gönderi Oluştur' sayfasında istediği konu ile ilgili gönderiler oluşturabilmektedir. Gönderilerine görsel ekleyebilmektedir. Kişi profil fotoğrafını ve kullanıcı adını değiştirebilmektedir. Aynı zamanda projenin temasını da değiştirebilmektedir. 
 ## Demo
-Projeye aşağıdaki linkten ulaşabilirsiniz:  
-https://auth-firebase-41263.web.app
+Projeye aşağıdaki linklerden ulaşabilirsiniz:  
+https://auth-firebase-41263.web.app  
+https://auth-firebase-41263.firebaseapp.com
 
   
 ## Yorumum
